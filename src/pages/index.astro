@@ -254,6 +254,7 @@ const faqItems = [
     align-content: center;
     gap: 20px;
     padding: 72px 32px 72px 0;
+    min-width: 0;
   }
 
   .hero-copy h1 {
@@ -306,6 +307,7 @@ const faqItems = [
   .story-media,
   .testimonial-media {
     display: flex;
+    min-width: 0;
   }
 
   .media-frame {
@@ -391,6 +393,7 @@ const faqItems = [
     align-content: center;
     gap: 18px;
     padding: 36px 0 36px 46px;
+    min-width: 0;
   }
 
   .story-list {
@@ -469,6 +472,7 @@ const faqItems = [
     align-content: center;
     gap: 18px;
     padding: 48px 34px;
+    min-width: 0;
   }
 
   .testimonial-copy h2 {
@@ -524,6 +528,7 @@ const faqItems = [
 
   .waitlist-form-column {
     max-width: 520px;
+    min-width: 0;
   }
 
   .faq-section {
@@ -626,6 +631,10 @@ const faqItems = [
   }
 
   @media (max-width: 680px) {
+    .landing-shell {
+      overflow-x: clip;
+    }
+
     .hero-section {
       padding-top: 0;
       padding-bottom: 22px;
@@ -677,15 +686,18 @@ const faqItems = [
       display: block;
       max-width: none;
       order: 3;
+      min-width: 0;
     }
 
     .hero-media {
-      margin: 0 -20px;
+      margin: 0;
       max-width: none;
+      width: 100%;
     }
 
     .hero-media-frame {
       aspect-ratio: 0.92;
+      width: 100%;
     }
 
     .hero-benefits {
@@ -715,7 +727,12 @@ const faqItems = [
     }
 
     .trust-logos {
-      gap: 0;
+      gap: 12px;
+    }
+
+    .trust-logo-item {
+      min-width: 0;
+      flex: 1 1 120px;
     }
 
     .feature-card h3 {
