@@ -29,7 +29,7 @@ const consentId = `${id}-consent`;
   </form>
 
   <label class="waitlist-consent" for={consentId}>
-    <input id={consentId} type="checkbox" name="marketingConsent" required />
+    <input id={consentId} type="checkbox" name="marketingConsent" form={id} required />
     <span>
       I want CatPlay launch updates and early access emails. I can withdraw my consent at any time
       via <a href={`mailto:${LEGAL_CONTACT.email}`}>{LEGAL_CONTACT.email}</a>. Read the
@@ -70,10 +70,11 @@ const consentId = `${id}-consent`;
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
+      const wrap = form.closest(".waitlist-wrap");
       const input = form.querySelector('input[type="email"]');
-      const consent = form.querySelector('input[name="marketingConsent"]');
+      const consent = wrap?.querySelector('input[name="marketingConsent"]');
       const button = form.querySelector("button");
-      const hint = form.closest(".waitlist-wrap")?.querySelector(".waitlist-hint");
+      const hint = wrap?.querySelector(".waitlist-hint");
 
       if (!(input instanceof HTMLInputElement) || !(button instanceof HTMLButtonElement)) {
         return;
