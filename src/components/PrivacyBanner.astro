@@ -1,0 +1,434 @@
+---
+import {
+  LEGAL_VERSIONS,
+  PRIVACY_PREFERENCE_KEY,
+  PRIVACY_PREFERENCE_TTL_DAYS,
+} from "../data/legal";
+---
+
+<section class="privacy-banner" data-privacy-banner hidden>
+  <div class="privacy-banner__inner">
+    <div class="privacy-banner__copy">
+      <p class="privacy-banner__title">Privacy settings</p>
+      <p>
+        CatPlay currently uses only technically necessary cookies and similar storage for site
+        delivery, security, the waitlist form, and saving your privacy choice. We do not currently
+        use analytics or marketing cookies.
+      </p>
+    </div>
+
+    <div class="privacy-banner__actions">
+      <a href="/privacy" class="privacy-banner__link">Privacy policy</a>
+      <button type="button" class="privacy-banner__secondary" data-open-privacy-modal>
+        Details
+      </button>
+      <button type="button" class="privacy-banner__primary" data-save-privacy-choice>
+        Only necessary
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="privacy-modal" data-privacy-modal hidden>
+  <div class="privacy-modal__backdrop" data-close-privacy-modal></div>
+  <div
+    class="privacy-modal__panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="privacy-modal-title"
+  >
+    <div class="privacy-modal__header">
+      <div>
+        <p class="privacy-modal__eyebrow">Privacy</p>
+        <h2 id="privacy-modal-title">Current storage on this website</h2>
+      </div>
+      <button type="button" class="privacy-modal__close" data-close-privacy-modal>
+        Close
+      </button>
+    </div>
+
+    <div class="privacy-modal__content">
+      <div class="privacy-category">
+        <div>
+          <h3>Necessary storage</h3>
+          <p>
+            Required for secure delivery of the website, handling the waitlist request, and
+            remembering your privacy preference.
+          </p>
+        </div>
+        <span class="privacy-category__state">Always active</span>
+      </div>
+
+      <div class="privacy-category privacy-category--muted">
+        <div>
+          <h3>Analytics and marketing</h3>
+          <p>
+            Not active on this website at the moment. If that changes later, CatPlay will ask for
+            consent before enabling it.
+          </p>
+        </div>
+        <span class="privacy-category__state privacy-category__state--inactive">
+          Not in use
+        </span>
+      </div>
+
+      <div class="privacy-meta">
+        <p>
+          Preference key: <code>{PRIVACY_PREFERENCE_KEY}</code>
+        </p>
+        <p>Retention: {PRIVACY_PREFERENCE_TTL_DAYS} days</p>
+        <p>Policy version: {LEGAL_VERSIONS.privacyBanner}</p>
+      </div>
+    </div>
+
+    <div class="privacy-modal__footer">
+      <a href="/privacy" class="privacy-banner__link">Open full privacy policy</a>
+      <button type="button" class="privacy-banner__primary" data-save-privacy-choice>
+        Save and close
+      </button>
+    </div>
+  </div>
+</div>
+
+<script
+  is:inline
+  define:vars={{
+    privacyKey: PRIVACY_PREFERENCE_KEY,
+    privacyVersion: LEGAL_VERSIONS.privacyBanner,
+    ttlDays: PRIVACY_PREFERENCE_TTL_DAYS,
+  }}
+>
+  if (!window.__catplayPrivacyBannerBound) {
+    const banner = document.querySelector("[data-privacy-banner]");
+    const modal = document.querySelector("[data-privacy-modal]");
+    const storageKey = privacyKey;
+    const maxAgeMs = Number(ttlDays) * 24 * 60 * 60 * 1000;
+
+    const readPreference = () => {
+      try {
+        const rawValue = window.localStorage.getItem(storageKey);
+        if (!rawValue) {
+          return null;
+        }
+
+        const parsedValue = JSON.parse(rawValue);
+        if (
+          parsedValue?.version !== privacyVersion ||
+          typeof parsedValue?.expiresAt !== "number" ||
+          parsedValue.expiresAt < Date.now()
+        ) {
+          window.localStorage.removeItem(storageKey);
+          return null;
+        }
+
+        return parsedValue;
+      } catch {
+        return null;
+      }
+    };
+
+    const savePreference = () => {
+      const now = Date.now();
+      window.localStorage.setItem(
+        storageKey,
+        JSON.stringify({
+          version: privacyVersion,
+          necessary: true,
+          savedAt: now,
+          expiresAt: now + maxAgeMs,
+        }),
+      );
+    };
+
+    const openModal = () => {
+      if (!(modal instanceof HTMLElement)) {
+        return;
+      }
+
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+    };
+
+    const closeModal = () => {
+      if (!(modal instanceof HTMLElement)) {
+        return;
+      }
+
+      modal.hidden = true;
+      document.body.style.overflow = "";
+    };
+
+    const hideBanner = () => {
+      if (banner instanceof HTMLElement) {
+        banner.hidden = true;
+      }
+    };
+
+    const saveAndClose = () => {
+      savePreference();
+      hideBanner();
+      closeModal();
+    };
+
+    if (banner instanceof HTMLElement && !readPreference()) {
+      banner.hidden = false;
+    }
+
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) {
+        return;
+      }
+
+      if (target.closest("[data-open-privacy-modal]")) {
+        openModal();
+        return;
+      }
+
+      if (target.closest("[data-close-privacy-modal]")) {
+        closeModal();
+        return;
+      }
+
+      if (target.closest("[data-save-privacy-choice]")) {
+        saveAndClose();
+        return;
+      }
+
+      if (target.closest("[data-open-privacy-settings]")) {
+        event.preventDefault();
+        openModal();
+      }
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeModal();
+      }
+    });
+
+    document.addEventListener("astro:page-load", () => {
+      if (banner instanceof HTMLElement && !readPreference()) {
+        banner.hidden = false;
+      }
+    });
+
+    window.__catplayPrivacyBannerBound = true;
+  }
+</script>
+
+<style>
+  .privacy-banner {
+    position: fixed;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    z-index: 120;
+  }
+
+  .privacy-banner__inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    align-items: end;
+    padding: 18px 20px;
+    background: rgba(58, 42, 33, 0.94);
+    color: rgba(255, 250, 244, 0.92);
+    border: 1px solid rgba(255, 240, 226, 0.16);
+    box-shadow: 0 24px 80px rgba(25, 16, 10, 0.3);
+  }
+
+  .privacy-banner__copy {
+    display: grid;
+    gap: 6px;
+    max-width: 720px;
+    font-size: 13px;
+    line-height: 1.55;
+  }
+
+  .privacy-banner__title,
+  .privacy-modal__eyebrow {
+    color: rgba(239, 198, 175, 0.9);
+    font-size: 11px;
+    line-height: 1.2;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .privacy-banner__actions,
+  .privacy-modal__footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .privacy-banner__link,
+  .privacy-banner__secondary,
+  .privacy-banner__primary,
+  .privacy-modal__close {
+    appearance: none;
+    border: 0;
+    text-decoration: none;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  .privacy-banner__link,
+  .privacy-banner__secondary,
+  .privacy-modal__close {
+    color: rgba(255, 247, 238, 0.88);
+    background: transparent;
+  }
+
+  .privacy-banner__secondary,
+  .privacy-modal__close {
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 240, 226, 0.14);
+  }
+
+  .privacy-banner__primary {
+    padding: 12px 16px;
+    background: var(--apricot-500);
+    color: var(--apricot-ink);
+    font-weight: 600;
+  }
+
+  .privacy-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 140;
+  }
+
+  .privacy-modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(24, 16, 10, 0.46);
+  }
+
+  .privacy-modal__panel {
+    position: relative;
+    width: min(720px, calc(100% - 32px));
+    margin: 8vh auto 0;
+    padding: 24px;
+    background: #fffaf3;
+    color: #35271f;
+    border: 1px solid rgba(123, 97, 72, 0.12);
+    box-shadow: 0 32px 80px rgba(32, 21, 14, 0.18);
+  }
+
+  .privacy-modal__header {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: start;
+    margin-bottom: 18px;
+  }
+
+  .privacy-modal__header h2 {
+    margin-top: 8px;
+    font-size: clamp(28px, 5vw, 40px);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    font-weight: 400;
+  }
+
+  .privacy-modal__content {
+    display: grid;
+    gap: 16px;
+  }
+
+  .privacy-category {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: start;
+    padding: 18px 0;
+    border-top: 1px solid rgba(123, 97, 72, 0.12);
+  }
+
+  .privacy-category h3 {
+    margin-bottom: 6px;
+    font-size: 18px;
+    line-height: 1.3;
+    font-weight: 600;
+  }
+
+  .privacy-category p,
+  .privacy-meta p {
+    color: rgba(61, 46, 36, 0.78);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .privacy-category--muted {
+    opacity: 0.76;
+  }
+
+  .privacy-category__state {
+    padding: 10px 12px;
+    background: rgba(229, 175, 132, 0.18);
+    color: #694b35;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .privacy-category__state--inactive {
+    background: rgba(123, 97, 72, 0.1);
+    color: rgba(76, 60, 47, 0.76);
+  }
+
+  .privacy-meta {
+    display: grid;
+    gap: 4px;
+    padding-top: 4px;
+  }
+
+  .privacy-modal__footer {
+    margin-top: 22px;
+    justify-content: space-between;
+  }
+
+  @media (max-width: 760px) {
+    .privacy-banner {
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+    }
+
+    .privacy-banner__inner,
+    .privacy-category,
+    .privacy-modal__footer {
+      grid-template-columns: 1fr;
+    }
+
+    .privacy-banner__actions,
+    .privacy-modal__footer {
+      justify-content: stretch;
+    }
+
+    .privacy-banner__link,
+    .privacy-banner__secondary,
+    .privacy-banner__primary,
+    .privacy-modal__close {
+      text-align: center;
+      width: 100%;
+    }
+
+    .privacy-modal__panel {
+      width: min(720px, calc(100% - 20px));
+      margin-top: 20px;
+      padding: 20px;
+    }
+
+    .privacy-modal__header {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

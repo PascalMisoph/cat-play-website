@@ -1,0 +1,246 @@
+---
+---
+
+<footer class="site-footer">
+  <div class="footer-shell footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">cat<span class="play">play</span></div>
+      <p class="footer-tagline">
+        CatPlay is a wellness companion for cats and the people who love them.
+        <br />
+        Coming to iOS and Android in 2026.
+      </p>
+    </div>
+
+    <div class="footer-meta">
+      <div class="footer-columns">
+        <div class="footer-column">
+          <div class="footer-heading">Product</div>
+          <a href="/how-it-works">How it works</a>
+          <a href="/benefits">Benefits</a>
+        </div>
+
+        <div class="footer-column">
+          <div class="footer-heading">Company</div>
+          <a href="/#about">About</a>
+          <a href="/#faq">FAQ</a>
+        </div>
+
+        <div class="footer-column">
+          <div class="footer-heading">Legal</div>
+          <a href="/privacy">Privacy</a>
+          <a href="/imprint">Imprint</a>
+        </div>
+      </div>
+
+      <div class="footer-actions">
+        <a href="mailto:hello@pawandsage.com">Email</a>
+        <button type="button" class="footer-settings-button" data-open-privacy-settings>
+          Privacy settings
+        </button>
+        <a href="/">Home</a>
+      </div>
+
+      <div class="footer-bottom">
+        <div>Copyright 2026 CatPlay. All rights reserved.</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: #fbf7f1;
+    color: #5d4a3a;
+    padding: 36px 0 44px;
+    border-top: 1px solid rgba(123, 97, 72, 0.08);
+  }
+
+  .footer-shell {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0 clamp(28px, 4vw, 56px);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr);
+    gap: 56px;
+  }
+
+  .footer-logo {
+    font-size: 26px;
+    font-weight: 500;
+    color: #362920;
+    letter-spacing: -0.05em;
+    margin-bottom: 10px;
+  }
+
+  .footer-logo .play {
+    color: #c39a7b;
+  }
+
+  .footer-tagline {
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(93, 74, 58, 0.74);
+    max-width: 260px;
+  }
+
+  .footer-meta {
+    display: grid;
+    gap: 20px;
+  }
+
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+    gap: 36px;
+    align-items: start;
+  }
+
+  .footer-column {
+    min-width: 88px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .footer-heading {
+    color: #5d4a3a;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .footer-column a {
+    color: rgba(93, 74, 58, 0.74);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s ease;
+  }
+
+  .footer-column a:hover {
+    color: #5c483a;
+  }
+
+  .footer-actions {
+    display: flex;
+    gap: 22px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .footer-actions a {
+    color: #5c483a;
+    text-decoration: none;
+    font-size: 13px;
+  }
+
+  .footer-settings-button {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: #5c483a;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+  }
+
+  .footer-bottom {
+    padding-top: 2px;
+    display: flex;
+    gap: 16px;
+    color: rgba(93, 74, 58, 0.68);
+    font-size: 12px;
+  }
+
+  @media (max-width: 960px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .footer-tagline {
+      max-width: 420px;
+    }
+
+    .footer-meta {
+      gap: 24px;
+    }
+
+    .footer-columns {
+      grid-template-columns: repeat(3, minmax(100px, 1fr));
+      gap: 28px;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .site-footer {
+      padding: 34px 0 42px;
+    }
+
+    .footer-shell {
+      padding: 0 20px;
+    }
+
+    .footer-grid {
+      gap: 28px;
+    }
+
+    .footer-brand {
+      padding-bottom: 6px;
+      border-bottom: 1px solid rgba(123, 97, 72, 0.08);
+    }
+
+    .footer-tagline {
+      max-width: none;
+      font-size: 13.5px;
+      line-height: 1.65;
+    }
+
+    .footer-meta {
+      gap: 28px;
+    }
+
+    .footer-columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px 20px;
+    }
+
+    .footer-column {
+      gap: 12px;
+    }
+
+    .footer-heading {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .footer-column a,
+    .footer-actions a,
+    .footer-settings-button {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .footer-actions {
+      gap: 16px 22px;
+      padding-top: 4px;
+    }
+
+    .footer-bottom {
+      padding-top: 16px;
+      border-top: 1px solid rgba(123, 97, 72, 0.08);
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .footer-columns {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

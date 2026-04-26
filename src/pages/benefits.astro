@@ -1,0 +1,858 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import WaitlistForm from "../components/WaitlistForm.astro";
+
+const heroBenefits = [
+  {
+    label: "Build a Routine",
+    icon: "clock",
+  },
+  {
+    label: "Get Insights",
+    icon: "chart",
+  },
+  {
+    label: "Form a Stronger Bond",
+    icon: "heart",
+  },
+];
+
+const benefitSections = [
+  {
+    number: "01",
+    title: "Calmer cats, more balanced days.",
+    body:
+      "Daily play helps release built-up energy, reduce boredom, and support better sleep and mood.",
+    bullets: [
+      "Less restless energy",
+      "Fewer nighttime zoomies",
+      "More confident, relaxed behavior",
+    ],
+  },
+  {
+    number: "02",
+    title: "Understand behavior so you can help.",
+    body:
+      "Track what matters to spot patterns and triggers. Know what your cat needs and how to respond.",
+    bullets: [
+      "Spot changes early",
+      "Recognize what works",
+      "Make informed choices with confidence",
+    ],
+  },
+  {
+    number: "03",
+    title: "Stronger bond, built every day.",
+    body:
+      "Focused play creates positive interactions and trust, deepening your connection in small, meaningful ways.",
+    bullets: [
+      "More quality time together",
+      "Clear cues, better communication",
+      "A happier relationship for both of you",
+    ],
+  },
+  {
+    number: "04",
+    title: "Consistency made easy and rewarding.",
+    body:
+      "Step-by-step guidance, timely reminders, and quick sessions help you build a habit that sticks.",
+    bullets: [
+      "Reminders that fit your day",
+      "Short, effective sessions",
+      "Streaks and wins to celebrate",
+    ],
+  },
+];
+
+---
+
+<BaseLayout
+  title="Benefits | CatPlay"
+  description="See how CatPlay helps create calmer routines, stronger bonds, and better understanding between you and your cat."
+>
+  <Header currentPath="/benefits" />
+
+  <main class="benefits-shell">
+    <section class="hero-section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="section-kicker">The benefits of CatPlay</span>
+          <h1>
+            Better days for your cat.
+            <br />
+            <em>More connection for you.</em>
+          </h1>
+          <p>
+            CatPlay turns a simple daily play ritual into real, lasting benefits for your cat's
+            well-being and your relationship together.
+          </p>
+
+          <div class="hero-benefits">
+            {
+              heroBenefits.map((item) => (
+                <div class="hero-benefit">
+                  <span class="hero-benefit-icon" aria-hidden="true">
+                    {
+                      item.icon === "heart" ? (
+                        <svg viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M12 19.2L5.7 12.9C4.3 11.5 4.3 9.1 5.7 7.7C7.1 6.3 9.4 6.3 10.8 7.7L12 8.9L13.2 7.7C14.6 6.3 16.9 6.3 18.3 7.7C19.7 9.1 19.7 11.5 18.3 12.9L12 19.2Z"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        </svg>
+                      ) : item.icon === "chart" ? (
+                        <svg viewBox="0 0 24 24" fill="none">
+                          <path
+                            d="M5.5 18.5V13.5M11.5 18.5V9.5M17.5 18.5V5.5"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"></path>
+                          <path
+                            d="M4 18.5H19"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"></path>
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 24 24" fill="none">
+                          <circle
+                            cx="12"
+                            cy="12"
+                            r="7"
+                            stroke="currentColor"
+                            stroke-width="1.5"></circle>
+                          <path
+                            d="M12 8.3V12.3L14.8 14.1"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"></path>
+                        </svg>
+                      )
+                    }
+                  </span>
+                  <span>{item.label}</span>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="hero-media-wrap">
+          <div class="hero-media">
+            <img
+              src="/benefits/hero-cat-resting.jpg"
+              alt="Cat resting in warm window light"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </div>
+          <div class="hero-stamp">Small rituals. Big impact.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefit-grid-section">
+      <div class="container benefits-flow">
+        <article class="benefit-row benefit-row-a">
+          <div class="phone-panel">
+            <img src="/benefits/phone-explorer.png" alt="Guided CatPlay session explorer screen" loading="lazy" />
+          </div>
+          <div class="benefit-copy">
+            <span class="section-number benefit-number">{benefitSections[0].number}</span>
+            <h2>{benefitSections[0].title}</h2>
+            <p>{benefitSections[0].body}</p>
+            <div class="benefit-bullets">
+              {
+                benefitSections[0].bullets.map((bullet) => (
+                  <div class="benefit-bullet">{bullet}</div>
+                ))
+              }
+            </div>
+          </div>
+          <div class="photo-panel">
+            <img
+              src="/benefits/cat-stretching.jpg"
+              alt="Cat stretching on a soft blanket"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </article>
+
+        <article class="benefit-row benefit-row-b">
+          <div class="benefit-copy text-only">
+            <span class="section-number benefit-number">{benefitSections[1].number}</span>
+            <h2>{benefitSections[1].title}</h2>
+            <p>{benefitSections[1].body}</p>
+            <div class="benefit-bullets">
+              {
+                benefitSections[1].bullets.map((bullet) => (
+                  <div class="benefit-bullet">{bullet}</div>
+                ))
+              }
+            </div>
+          </div>
+          <div class="phone-panel center">
+            <img src="/benefits/phone-insights.png" alt="Weekly CatPlay insights screen" loading="lazy" />
+          </div>
+          <div class="insight-card">
+            <div class="insight-star" aria-hidden="true"></div>
+            <h3>Insight you can act on</h3>
+            <p>
+              Simple weekly insights highlight trends in play time, routine, toys, and activity so
+              you always know how to help your cat thrive.
+            </p>
+          </div>
+        </article>
+
+        <article class="benefit-row benefit-row-c">
+          <div class="photo-panel">
+            <img
+              src="/benefits/bond-human-cat.jpg"
+              alt="Woman bonding closely with her cat"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="benefit-copy">
+            <span class="section-number benefit-number">{benefitSections[2].number}</span>
+            <h2>{benefitSections[2].title}</h2>
+            <p>{benefitSections[2].body}</p>
+            <div class="benefit-bullets">
+              {
+                benefitSections[2].bullets.map((bullet) => (
+                  <div class="benefit-bullet">{bullet}</div>
+                ))
+              }
+            </div>
+          </div>
+          <div class="phone-panel">
+            <img src="/benefits/phone-start.png" alt="Start play session screen in CatPlay" loading="lazy" />
+          </div>
+        </article>
+
+        <article class="benefit-row benefit-row-d">
+          <div class="phone-panel">
+            <img src="/benefits/phone-journal.png" alt="CatPlay journal and routine screen" loading="lazy" />
+          </div>
+          <div class="benefit-copy">
+            <span class="section-number benefit-number">{benefitSections[3].number}</span>
+            <h2>{benefitSections[3].title}</h2>
+            <p>{benefitSections[3].body}</p>
+            <div class="benefit-bullets">
+              {
+                benefitSections[3].bullets.map((bullet) => (
+                  <div class="benefit-bullet">{bullet}</div>
+                ))
+              }
+            </div>
+          </div>
+          <div class="photo-panel">
+            <img
+              src="/benefits/cat-feather-play.jpg"
+              alt="Cat playing with a feather toy"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="comparison-section">
+      <div class="container comparison-grid">
+        <div class="comparison-image">
+          <img
+            src="/benefits/cat-window-muted.jpg"
+            alt="Cat sitting quietly by a window"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+
+        <div class="comparison-column">
+          <div class="comparison-label">Without structure</div>
+          <div class="comparison-list negative">
+            <div>Play happens randomly or not at all</div>
+            <div>Hard to know what your cat needs</div>
+            <div>Inconsistent results</div>
+            <div>More stress for you and your cat</div>
+          </div>
+        </div>
+
+        <div class="comparison-vs">vs.</div>
+
+        <div class="comparison-column">
+          <div class="comparison-label">With CatPlay</div>
+          <div class="comparison-list positive">
+            <div>Daily ritual built around your cat</div>
+            <div>Understand behavior and needs</div>
+            <div>Real progress you can see</div>
+            <div>Calmer cat. Stronger bond. Easier days.</div>
+          </div>
+        </div>
+
+        <div class="comparison-image">
+          <img
+            src="/benefits/cat-chin-scratch.jpg"
+            alt="Happy cat receiving a gentle chin scratch"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-section">
+      <div class="container trust-strip">
+        <div class="trust-copy">Backed by science. Loved by cat people.</div>
+      </div>
+    </section>
+
+    <section id="waitlist" class="cta-section">
+      <div class="container cta-grid">
+        <div class="cta-copy">
+          <h2>
+            Small rituals.
+            <br />
+            <em>Big change.</em>
+          </h2>
+          <p>
+            Join the waitlist and be the first to bring more play, balance, and connection to your
+            life with your cat.
+          </p>
+          <div class="cta-form">
+            <WaitlistForm id="waitlist-benefits" variant="editorial" />
+          </div>
+          <div class="cta-note">No spam. Just good things for cat people.</div>
+        </div>
+
+        <div class="cta-image-wrap">
+          <div class="cta-image">
+            <img
+              src="/benefits/cta-cat-lying.jpg"
+              alt="Relaxed cat lying on a soft blanket"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <div class="cta-stamp">Better days start with play</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .benefits-shell {
+    background: #fbf7f1;
+    color: #2a2019;
+  }
+
+  .hero-section {
+    padding: 22px 0 52px;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1fr);
+    gap: 48px;
+    align-items: start;
+  }
+
+  .hero-copy {
+    padding-top: 62px;
+    max-width: 520px;
+  }
+
+  .hero-copy h1,
+  .benefit-copy h2,
+  .cta-copy h2 {
+    font-size: clamp(50px, 6.5vw, 74px);
+    line-height: 1.02;
+    letter-spacing: -0.055em;
+    font-weight: 400;
+    color: #3d2d23;
+  }
+
+  .hero-copy h1 em,
+  .cta-copy h2 em {
+    font-family: "Instrument Serif", serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--editorial-italic-accent);
+  }
+
+  .hero-copy p {
+    max-width: 420px;
+    margin-top: 20px;
+    color: rgba(64, 47, 37, 0.84);
+    font-size: 17px;
+    line-height: 1.7;
+  }
+
+  .hero-benefits {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 42px;
+    max-width: 760px;
+  }
+
+  .hero-benefit {
+    display: grid;
+    gap: 14px;
+    color: #4a382d;
+    font-size: 16px;
+    line-height: 1.35;
+  }
+
+  .hero-benefit-icon {
+    width: 64px;
+    height: 64px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #ecaa7b;
+    border: 1.5px solid rgba(236, 170, 123, 0.9);
+    border-radius: 50%;
+  }
+
+  .hero-benefit-icon svg {
+    width: 30px;
+    height: 30px;
+    display: block;
+  }
+
+  .hero-benefit-icon img {
+    width: 30px;
+    height: 30px;
+    display: block;
+  }
+
+  .hero-media-wrap,
+  .cta-image-wrap {
+    position: relative;
+  }
+
+  .hero-media,
+  .photo-panel,
+  .comparison-image,
+  .cta-image {
+    overflow: hidden;
+    background: #eadbc9;
+  }
+
+  .hero-media img,
+  .photo-panel img,
+  .comparison-image img,
+  .cta-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+  }
+
+  .hero-media {
+    aspect-ratio: 1.25;
+  }
+
+  .hero-stamp,
+  .cta-stamp {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #e2a37d;
+    border: 1.5px solid #e2a37d;
+    border-radius: 50%;
+    background: rgba(251, 247, 241, 0.94);
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .hero-stamp {
+    width: 126px;
+    height: 126px;
+    left: -34px;
+    bottom: -26px;
+    transform: rotate(-18deg);
+  }
+
+  .benefit-grid-section {
+    padding: 0 0 18px;
+  }
+
+  .benefits-flow {
+    display: grid;
+    gap: 10px;
+  }
+
+  .benefit-row {
+    display: grid;
+    gap: 22px;
+    align-items: stretch;
+    padding: 8px 0;
+  }
+
+  .benefit-row-a,
+  .benefit-row-c,
+  .benefit-row-d {
+    grid-template-columns: 180px minmax(0, 0.86fr) minmax(280px, 0.88fr);
+  }
+
+  .benefit-row-b {
+    grid-template-columns: minmax(0, 0.96fr) 220px minmax(0, 0.62fr);
+  }
+
+  .phone-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+  }
+
+  .phone-panel img {
+    width: min(100%, 190px);
+    height: auto;
+    display: block;
+  }
+
+  .phone-panel.center img {
+    width: min(100%, 210px);
+  }
+
+  .benefit-copy {
+    align-self: center;
+    max-width: 420px;
+  }
+
+  .benefit-number {
+    margin-bottom: 10px;
+  }
+
+  .benefit-copy h2 {
+    font-size: clamp(36px, 4.4vw, 54px);
+    margin-bottom: 16px;
+  }
+
+  .benefit-copy p,
+  .insight-card p,
+  .cta-copy p,
+  .cta-note {
+    color: rgba(67, 49, 38, 0.82);
+    font-size: 15px;
+    line-height: 1.68;
+  }
+
+  .benefit-bullets {
+    display: grid;
+    gap: 8px;
+    margin-top: 18px;
+  }
+
+  .benefit-bullet {
+    position: relative;
+    padding-left: 22px;
+    color: #5a4639;
+    font-size: 14px;
+  }
+
+  .benefit-bullet::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--apricot-500);
+  }
+
+  .photo-panel {
+    min-height: 278px;
+  }
+
+  .insight-card {
+    align-self: center;
+    padding: 26px 18px 26px 8px;
+  }
+
+  .insight-star {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 18px;
+    position: relative;
+  }
+
+  .insight-star::before,
+  .insight-star::after {
+    content: "";
+    position: absolute;
+    background: #e2a37d;
+    opacity: 0.95;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .insight-star::before {
+    width: 2px;
+    height: 24px;
+  }
+
+  .insight-star::after {
+    width: 24px;
+    height: 2px;
+  }
+
+  .insight-card h3 {
+    max-width: 180px;
+    margin-bottom: 14px;
+    color: #3c2d24;
+    font-size: 26px;
+    line-height: 1.12;
+    font-weight: 400;
+  }
+
+  .comparison-section {
+    padding: 22px 0 14px;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: 168px minmax(0, 1fr) 80px minmax(0, 1fr) 168px;
+    gap: 18px;
+    align-items: stretch;
+    background: rgba(249, 243, 235, 0.92);
+    border: 1px solid rgba(226, 214, 201, 0.9);
+    padding: 18px;
+  }
+
+  .comparison-image {
+    min-height: 180px;
+  }
+
+  .comparison-column {
+    align-self: center;
+  }
+
+  .comparison-label {
+    margin-bottom: 16px;
+    color: #8c7462;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .comparison-list {
+    display: grid;
+    gap: 14px;
+    color: #564234;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .comparison-list div {
+    position: relative;
+    padding-left: 24px;
+  }
+
+  .comparison-list.negative div::before,
+  .comparison-list.positive div::before {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 15px;
+  }
+
+  .comparison-list.negative div::before {
+    content: "×";
+    color: #4d3a2d;
+  }
+
+  .comparison-list.positive div::before {
+    content: "●";
+    color: #e19e78;
+    font-size: 10px;
+    top: 4px;
+  }
+
+  .comparison-vs {
+    align-self: start;
+    justify-self: center;
+    width: 54px;
+    height: 54px;
+    border: 1px solid rgba(226, 163, 125, 0.9);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #7f624c;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    margin-top: -10px;
+    background: #fbf7f1;
+  }
+
+  .trust-section {
+    padding-bottom: 28px;
+  }
+
+  .trust-strip {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 16px 18px;
+    border: 1px solid rgba(226, 214, 201, 0.9);
+    background: rgba(251, 247, 241, 0.95);
+  }
+
+  .trust-copy {
+    color: #7f6855;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .cta-section {
+    padding: 8px 0 0;
+  }
+
+  .cta-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.92fr) minmax(300px, 1fr);
+    gap: 28px;
+    align-items: end;
+  }
+
+  .cta-copy {
+    padding: 20px 0 30px;
+    max-width: 430px;
+  }
+
+  .cta-copy h2 {
+    font-size: clamp(46px, 5.8vw, 68px);
+    margin-bottom: 18px;
+  }
+
+  .cta-form {
+    max-width: 520px;
+    margin-top: 20px;
+  }
+
+  .cta-note {
+    margin-top: 10px;
+    font-size: 13px;
+  }
+
+  .cta-image {
+    aspect-ratio: 1.18;
+  }
+
+  .cta-stamp {
+    width: 120px;
+    height: 120px;
+    right: -10px;
+    bottom: 28px;
+    transform: rotate(18deg);
+  }
+
+  @media (max-width: 1120px) {
+    .hero-grid,
+    .benefit-row-a,
+    .benefit-row-b,
+    .benefit-row-c,
+    .benefit-row-d,
+    .comparison-grid,
+    .cta-grid,
+    .trust-strip {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-copy {
+      padding-top: 48px;
+    }
+
+    .hero-benefits {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .hero-stamp,
+    .cta-stamp {
+      display: none;
+    }
+
+    .comparison-vs {
+      margin: 0;
+    }
+
+    .comparison-image {
+      min-height: 220px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .hero-section {
+      padding-bottom: 38px;
+    }
+
+    .hero-copy h1,
+    .cta-copy h2 {
+      font-size: 48px;
+    }
+
+    .hero-benefits {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .hero-benefit {
+      gap: 10px;
+      font-size: 12px;
+      line-height: 1.25;
+    }
+
+    .hero-benefit-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .hero-benefit-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .benefit-copy h2 {
+      font-size: 40px;
+    }
+
+    .benefit-bullets {
+      gap: 10px;
+    }
+
+    .benefit-bullet {
+      padding-left: 20px;
+    }
+
+    .photo-panel,
+    .hero-media,
+    .cta-image {
+      min-height: 240px;
+    }
+  }
+</style>

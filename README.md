@@ -1,28 +1,55 @@
 # CatPlay Website
 
-Marketing website and brand kit for CatPlay, the iOS & Android daily play ritual app for cat owners.
+Separated marketing site for CatPlay.
+
+## Stack
+
+- Astro static site
+- Shared layout and components
+- Static deployment target for `catplay.app`
+- Waitlist submissions posted to a Convex HTTP endpoint
 
 ## Structure
 
-- `index.html` — Full marketing landing page (pre-launch / waitlist)
-- `brand-kit.html` — CatPlay brand identity kit
+- `src/pages/index.astro` landing page
+- `src/pages/how-it-works.astro` secondary marketing page
+- `src/pages/privacy.astro` privacy placeholder
+- `src/pages/imprint.astro` imprint placeholder
+- `src/components/*` shared header, footer, and waitlist form
 
-## Status
+## Local development
 
-Currently a static HTML preview. Next step: port to Next.js (App Router, Tailwind, next-intl for i18n, MailerLite integration).
+```bash
+npm install
+npm run dev
+```
 
-## Planned stack
+Set `PUBLIC_WAITLIST_ENDPOINT` in `.env` to your Convex HTTP action URL, for example:
 
-- **Framework:** Next.js 14+ (App Router)
-- **Styling:** Tailwind CSS
-- **i18n:** next-intl (EN primary, DE secondary, subpath routing)
-- **Email:** MailerLite (waitlist capture)
-- **Hosting:** Vercel
-- **Domain:** catplay.app (to be registered)
+```bash
+PUBLIC_WAITLIST_ENDPOINT=https://your-deployment.convex.site/waitlist
+```
 
-## Brand
+## Deployment
 
-- **Primary font:** DM Sans
-- **Accent font:** Instrument Serif (italic, emotional moments)
-- **Colors:** Amber #FF9500, Cream #FFF7EC, Sand #D8B08A, Ink #1C1C1E
-- **Tone:** Calm, specific, warm without being saccharine. No gamification language, no cat puns.
+- Hosting target: Vercel
+- Production domain: `catplay.app`
+- Required Vercel environment variable: `PUBLIC_WAITLIST_ENDPOINT`
+
+Recommended Vercel settings:
+
+- Framework preset: Astro
+- Build command: `npm run build`
+- Output directory: `dist`
+
+After the project is connected in Vercel:
+
+1. Add `catplay.app` and `www.catplay.app` as domains.
+2. Set `PUBLIC_WAITLIST_ENDPOINT` in Production.
+3. Point the domain DNS to Vercel using the records shown in the Vercel domain setup.
+
+## Deployment shape
+
+- `cat-play/` remains the Expo mobile app
+- `cat-play-website/` is the standalone website
+- Both codebases can share the same Convex backend without sharing frontend runtime or routing

@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import { LEGAL_CONTACT } from "../data/legal";
+---
+
+<BaseLayout title="CatPlay Imprint" description="Imprint information for the CatPlay website.">
+  <Header currentPath="/imprint" />
+
+  <main class="legal-page">
+    <div class="container legal-shell">
+      <span class="section-kicker">Legal</span>
+      <h1>Imprint</h1>
+      <div class="legal-copy">
+        <section>
+          <h2>Information pursuant to Section 5 DDG</h2>
+          <p>
+            {LEGAL_CONTACT.name}
+            <br />
+            {LEGAL_CONTACT.street}
+            <br />
+            {LEGAL_CONTACT.postalCode} {LEGAL_CONTACT.city}
+            <br />
+            {LEGAL_CONTACT.country}
+          </p>
+          <p>
+            Email: <a href={`mailto:${LEGAL_CONTACT.email}`}>{LEGAL_CONTACT.email}</a>
+          </p>
+        </section>
+
+        <section>
+          <h2>Responsible for this website</h2>
+          <p>
+            {LEGAL_CONTACT.name} is responsible for the CatPlay website and its published content.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .legal-page {
+    min-height: 70vh;
+    padding: 88px 0 120px;
+    background: var(--cream-100);
+  }
+
+  .legal-shell {
+    max-width: 820px;
+  }
+
+  h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+    margin-bottom: 24px;
+  }
+
+  .legal-copy {
+    display: grid;
+    gap: 28px;
+    color: rgba(28, 28, 30, 0.74);
+  }
+
+  .legal-copy section {
+    display: grid;
+    gap: 12px;
+  }
+
+  .legal-copy h2 {
+    font-size: 24px;
+    line-height: 1.2;
+    color: #2d211a;
+  }
+
+  .legal-copy a {
+    color: var(--amber-700);
+  }
+</style>

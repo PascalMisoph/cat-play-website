@@ -1,0 +1,167 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/fonts/instrument-serif-regular-latin.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/fonts/instrument-serif-italic-latin.woff2") format("woff2");
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --amber-900: #b45309;
+  --amber-700: #d97706;
+  --amber-500: #ff9500;
+  --amber-300: #ffc078;
+  --amber-100: #ffe4bf;
+  --amber-50: #fff4e0;
+  --apricot-500: #e5af84;
+  --apricot-400: #efc6af;
+  --apricot-600: #d49a72;
+  --apricot-ink: #3f2e24;
+  --section-number-size: 50px;
+  --section-number-font-size: 14px;
+  --section-number-color: #de9c7c;
+  --section-number-border: 1.5px solid rgba(222, 156, 124, 0.92);
+  --editorial-italic-accent: #4d3a2e;
+  --cream-50: #fffbf3;
+  --cream-100: #fff7ec;
+  --cream-200: #faf1df;
+  --cream-300: #f1e4cb;
+  --sand-700: #8a6e4b;
+  --sand-500: #d8b08a;
+  --sand-300: #e8cfb1;
+  --sand-100: #f3e8d8;
+  --bg: #f2f2f7;
+  --surface: #ffffff;
+  --ink: #1c1c1e;
+  --ink-soft: #3c3c43;
+  --ink-muted: #8e8e93;
+  --line: #e5e0d6;
+  --line-soft: #efeae0;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--cream-100);
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.container {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.8px;
+  color: var(--amber-700);
+  font-weight: 600;
+}
+
+.page-section {
+  padding: 112px 0;
+}
+
+.section-kicker {
+  display: inline-block;
+  margin-bottom: 18px;
+  color: var(--amber-700);
+  text-transform: uppercase;
+  letter-spacing: 2.2px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.section-title {
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  margin-bottom: 18px;
+}
+
+.section-title em,
+.section-copy em {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--editorial-italic-accent);
+}
+
+.section-copy {
+  max-width: 640px;
+  color: rgba(28, 28, 30, 0.74);
+}
+
+.card-surface {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(229, 224, 214, 0.9);
+  box-shadow: 0 24px 80px rgba(28, 28, 30, 0.06);
+}
+
+.section-number {
+  width: var(--section-number-size);
+  height: var(--section-number-size);
+  border-radius: 50%;
+  border: var(--section-number-border);
+  color: var(--section-number-color);
+  display: inline-grid;
+  place-items: center;
+  font-family: "Inter", sans-serif;
+  font-size: var(--section-number-font-size);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 540px) {
+  .container {
+    padding: 0 20px;
+  }
+
+  .page-section {
+    padding: 80px 0;
+  }
+}

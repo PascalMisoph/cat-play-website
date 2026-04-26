@@ -1,0 +1,342 @@
+---
+import {
+  LEGAL_CONTACT,
+  LEGAL_VERSIONS,
+  WAITLIST_CONSENT_TEXT,
+} from "../data/legal";
+
+export type Props = {
+  id?: string;
+  align?: "left" | "center";
+  variant?: "default" | "editorial";
+};
+
+const { id = "waitlist", align = "left", variant = "default" } = Astro.props;
+const endpoint = import.meta.env.PUBLIC_WAITLIST_ENDPOINT ?? "";
+const consentId = `${id}-consent`;
+---
+
+<div class:list={["waitlist-wrap", variant, { center: align === "center" }]}>
+  <form class="waitlist-form" id={id} data-endpoint={endpoint} novalidate>
+    <input
+      type="email"
+      name="email"
+      placeholder="your@email.com"
+      required
+      autocomplete="email"
+    />
+    <button type="submit">Join waitlist</button>
+  </form>
+
+  <label class="waitlist-consent" for={consentId}>
+    <input id={consentId} type="checkbox" name="marketingConsent" required />
+    <span>
+      I want CatPlay launch updates and early access emails. I can withdraw my consent at any time
+      via <a href={`mailto:${LEGAL_CONTACT.email}`}>{LEGAL_CONTACT.email}</a>. Read the
+      <a href="/privacy"> privacy policy</a>.
+    </span>
+  </label>
+
+  <p class="waitlist-meta" aria-live="polite">
+    <span class="waitlist-check" aria-hidden="true">
+      <svg viewBox="0 0 10 10" fill="none">
+        <path
+          d="M2 5.5L4 7.5L8 3"
+          stroke="#D97706"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+    </span>
+    <span class="waitlist-hint">Be the first to know when CatPlay launches.</span>
+  </p>
+</div>
+
+<script>
+  const DEFAULT_HINT = "Be the first to know when CatPlay launches.";
+  const SUCCESS_HINT = "You're on the list. We'll be in touch.";
+  const DUPLICATE_HINT = "This email is already on the waitlist.";
+  const ERROR_HINT = "Something went wrong. Please try again.";
+  const CONFIG_HINT = "Set PUBLIC_WAITLIST_ENDPOINT to enable submissions.";
+  const CONSENT_HINT = "Please confirm that CatPlay may email you about launch updates.";
+  const CONSENT_TEXT =
+    "I agree that CatPlay may process my email address to send me launch updates and early access information by email. I can withdraw my consent at any time by emailing hello@pawandsage.com.";
+  const CONSENT_VERSION = "2026-04-26";
+  const PRIVACY_VERSION = "2026-04-26";
+
+  const isValidEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+  document.querySelectorAll(".waitlist-form").forEach((form) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const input = form.querySelector('input[type="email"]');
+      const consent = form.querySelector('input[name="marketingConsent"]');
+      const button = form.querySelector("button");
+      const hint = form.closest(".waitlist-wrap")?.querySelector(".waitlist-hint");
+
+      if (!(input instanceof HTMLInputElement) || !(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      if (!(consent instanceof HTMLInputElement)) {
+        return;
+      }
+
+      const email = input.value.trim();
+      const endpoint = form.dataset.endpoint?.trim() ?? "";
+
+      if (!isValidEmail(email)) {
+        if (hint) {
+          hint.textContent = "Please enter a valid email address.";
+        }
+        input.focus();
+        return;
+      }
+
+      if (!consent.checked) {
+        if (hint) {
+          hint.textContent = CONSENT_HINT;
+        }
+        consent.focus();
+        return;
+      }
+
+      if (!endpoint) {
+        if (hint) {
+          hint.textContent = CONFIG_HINT;
+        }
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = "Adding...";
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email,
+            consentText: CONSENT_TEXT,
+            consentVersion: CONSENT_VERSION,
+            privacyVersion: PRIVACY_VERSION,
+          }),
+        });
+
+        const payload = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          throw new Error(
+            payload && typeof payload.error === "string" ? payload.error : ERROR_HINT,
+          );
+        }
+
+        input.value = "";
+        consent.checked = false;
+        button.textContent = "Added";
+        hint.textContent =
+          payload && payload.status === "duplicate" ? DUPLICATE_HINT : SUCCESS_HINT;
+      } catch (error) {
+        button.disabled = false;
+        button.textContent = "Try again";
+        if (hint) {
+          hint.textContent = error instanceof Error ? error.message : ERROR_HINT;
+        }
+        return;
+      }
+
+      window.setTimeout(() => {
+        button.disabled = false;
+        button.textContent = "Join waitlist";
+        if (hint) {
+          hint.textContent = DEFAULT_HINT;
+        }
+      }, 3500);
+    });
+  });
+</script>
+
+<style>
+  .waitlist-form {
+    display: flex;
+    gap: 6px;
+    background: var(--surface);
+    padding: 5px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    box-shadow:
+      0 1px 3px rgba(0, 0, 0, 0.04),
+      0 8px 24px rgba(180, 83, 9, 0.06);
+    max-width: 440px;
+    margin-bottom: 14px;
+  }
+
+  .center .waitlist-form {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .editorial .waitlist-form {
+    gap: 0;
+    padding: 0;
+    border-radius: 0;
+    border-color: rgba(127, 103, 80, 0.18);
+    box-shadow: none;
+    max-width: 520px;
+    background: transparent;
+  }
+
+  .waitlist-form input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 13px 20px;
+    font-family: "Inter", sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    outline: none;
+    min-width: 0;
+    letter-spacing: -0.1px;
+  }
+
+  .editorial .waitlist-form input {
+    min-height: 50px;
+    font-size: 14px;
+    line-height: 20px;
+    border: 1px solid rgba(127, 103, 80, 0.18);
+    border-right: 0;
+    border-radius: 0;
+    background: #fbf8f3;
+  }
+
+  .waitlist-form input::placeholder {
+    color: var(--ink-muted);
+  }
+
+  .waitlist-form button {
+    background: var(--apricot-500);
+    color: var(--apricot-ink);
+    border: none;
+    padding: 13px 26px;
+    border-radius: 999px;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.25s ease;
+    white-space: nowrap;
+    letter-spacing: -0.2px;
+  }
+
+  .editorial .waitlist-form button {
+    min-height: 50px;
+    border-radius: 0;
+    background: var(--apricot-500);
+    color: var(--apricot-ink);
+    box-shadow: none;
+  }
+
+  .waitlist-form button:hover:not(:disabled) {
+    background: var(--apricot-600);
+  }
+
+  .editorial .waitlist-form button:hover:not(:disabled) {
+    background: var(--apricot-600);
+    color: var(--apricot-ink);
+  }
+
+  .waitlist-form button:disabled {
+    opacity: 0.75;
+    cursor: wait;
+  }
+
+  .waitlist-meta {
+    font-size: 13px;
+    color: var(--ink-muted);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .editorial .waitlist-meta {
+    color: rgba(91, 72, 56, 0.72);
+    font-size: 12px;
+  }
+
+  .center .waitlist-meta {
+    justify-content: center;
+  }
+
+  .waitlist-check {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--amber-50);
+    border: 1px solid var(--amber-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .waitlist-check svg {
+    width: 9px;
+    height: 9px;
+  }
+
+  .waitlist-consent {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px;
+    align-items: start;
+    max-width: 520px;
+    margin-bottom: 12px;
+    color: rgba(61, 46, 36, 0.8);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .waitlist-consent input {
+    width: 16px;
+    height: 16px;
+    margin-top: 2px;
+    accent-color: var(--amber-700);
+  }
+
+  .waitlist-consent a {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  @media (max-width: 540px) {
+    .waitlist-form {
+      flex-direction: column;
+      padding: 10px;
+      border-radius: 18px;
+    }
+
+    .waitlist-form button {
+      width: 100%;
+      padding: 14px;
+      border-radius: 999px;
+    }
+
+    .editorial .waitlist-form {
+      padding: 0;
+      border-radius: 0;
+    }
+
+    .editorial .waitlist-form input {
+      border-right: 1px solid rgba(127, 103, 80, 0.18);
+    }
+
+    .editorial .waitlist-form button {
+      border-radius: 0;
+    }
+
+    .waitlist-consent {
+      gap: 8px;
+    }
+  }
+</style>
