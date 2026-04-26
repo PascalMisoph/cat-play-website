@@ -9,11 +9,9 @@ import {
 <section class="privacy-banner" data-privacy-banner hidden>
   <div class="privacy-banner__inner">
     <div class="privacy-banner__copy">
-      <p class="privacy-banner__title">Privacy settings</p>
       <p>
-        CatPlay currently uses only technically necessary cookies and similar storage for site
-        delivery, security, the waitlist form, and saving your privacy choice. We do not currently
-        use analytics or marketing cookies.
+        This website uses only necessary storage for privacy settings and form handling. Analytics
+        and marketing cookies are not active.
       </p>
     </div>
 
@@ -220,32 +218,30 @@ import {
 <style>
   .privacy-banner {
     position: fixed;
-    left: 20px;
-    right: 20px;
-    bottom: 20px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     z-index: 120;
   }
 
   .privacy-banner__inner {
-    max-width: 1160px;
-    margin: 0 auto;
+    max-width: 100%;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     gap: 18px;
-    align-items: end;
-    padding: 18px 20px;
-    background: rgba(58, 42, 33, 0.94);
-    color: rgba(255, 250, 244, 0.92);
-    border: 1px solid rgba(255, 240, 226, 0.16);
-    box-shadow: 0 24px 80px rgba(25, 16, 10, 0.3);
+    align-items: center;
+    padding: 12px 32px;
+    background: rgba(255, 247, 236, 0.97);
+    color: rgba(61, 46, 36, 0.82);
+    border-top: 1px solid rgba(123, 97, 72, 0.12);
+    box-shadow: 0 -8px 24px rgba(32, 21, 14, 0.05);
+    backdrop-filter: blur(10px);
   }
 
   .privacy-banner__copy {
-    display: grid;
-    gap: 6px;
-    max-width: 720px;
-    font-size: 13px;
-    line-height: 1.55;
+    max-width: 740px;
+    font-size: 12.5px;
+    line-height: 1.5;
   }
 
   .privacy-banner__title,
@@ -262,7 +258,7 @@ import {
   .privacy-modal__footer {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px 12px;
     align-items: center;
     justify-content: flex-end;
   }
@@ -281,21 +277,32 @@ import {
   .privacy-banner__link,
   .privacy-banner__secondary,
   .privacy-modal__close {
-    color: rgba(255, 247, 238, 0.88);
+    color: #5c483a;
     background: transparent;
   }
 
   .privacy-banner__secondary,
   .privacy-modal__close {
-    padding: 12px 14px;
-    border: 1px solid rgba(255, 240, 226, 0.14);
+    padding: 8px 10px;
+    border: 1px solid rgba(123, 97, 72, 0.12);
+    font-size: 12px;
+    line-height: 1.2;
   }
 
   .privacy-banner__primary {
-    padding: 12px 16px;
+    padding: 9px 12px;
     background: var(--apricot-500);
     color: var(--apricot-ink);
     font-weight: 600;
+    font-size: 12px;
+    line-height: 1.2;
+  }
+
+  .privacy-banner__link {
+    font-size: 12px;
+    line-height: 1.2;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
   .privacy-modal {
@@ -396,12 +403,6 @@ import {
   }
 
   @media (max-width: 760px) {
-    .privacy-banner {
-      left: 12px;
-      right: 12px;
-      bottom: 12px;
-    }
-
     .privacy-banner__inner,
     .privacy-category,
     .privacy-modal__footer {
@@ -410,15 +411,13 @@ import {
 
     .privacy-banner__actions,
     .privacy-modal__footer {
-      justify-content: stretch;
+      justify-content: start;
     }
 
-    .privacy-banner__link,
     .privacy-banner__secondary,
     .privacy-banner__primary,
     .privacy-modal__close {
-      text-align: center;
-      width: 100%;
+      width: auto;
     }
 
     .privacy-modal__panel {
@@ -427,8 +426,14 @@ import {
       padding: 20px;
     }
 
-    .privacy-modal__header {
-      grid-template-columns: 1fr;
+    .privacy-banner__inner {
+      gap: 10px;
+      padding: 10px 20px;
+    }
+
+    .privacy-banner__copy {
+      font-size: 12px;
+      line-height: 1.45;
     }
   }
 </style>
